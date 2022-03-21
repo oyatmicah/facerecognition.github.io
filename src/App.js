@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Particles from "react-tsparticles";
 import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
+import SignIn from "./components/SignIn/SignIn";
+// import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Rank from "./components/Rank/Rank";
 import "./App.css";
@@ -14,17 +16,12 @@ const particlesLoaded = (container) => {
   console.log(container);
 };
 
-//////////////////////////////
-
-
-
-/////////////////////////////
-
 class App extends Component {
   constructor() {
     super();
     this.state = {
       input: "",
+      route: 'signin'
     };
   }
   onInputChange = (event) => {
@@ -158,13 +155,17 @@ fetch("https://api.clarifai.com/v2/models/people-detection-yolov5/versions/a7ab2
           }}
         />
         <Navigation />
-        <Logo />
+        { this.state.route === 'signin' ?
+          <SignIn onRouteChange={this.onRouteChange}/>
+          :
+        <div><Logo />
         <Rank />
         <ImageLinkForm
           onInputChange={this.onInputChange}
           onButtonSubmit={this.onButtonSubmit}
         />
-        <FaceRecognition />
+        </div>
+        }
       </div>
     );
   }
