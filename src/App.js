@@ -3,6 +3,7 @@ import Particles from "react-tsparticles";
 import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
 import SignIn from "./components/SignIn/SignIn";
+import Register from "./components/Register/Register";
 // import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Rank from "./components/Rank/Rank";
@@ -159,9 +160,7 @@ fetch("https://api.clarifai.com/v2/models/people-detection-yolov5/versions/a7ab2
           }}
         />
         <Navigation onRouteChange={this.onRouteChange}/>
-        { this.state.route === 'signin' ?
-          <SignIn onRouteChange={this.onRouteChange}/>
-          :
+        { this.state.route === 'home' ?
         <div><Logo />
         <Rank />
         <ImageLinkForm
@@ -169,6 +168,13 @@ fetch("https://api.clarifai.com/v2/models/people-detection-yolov5/versions/a7ab2
           onButtonSubmit={this.onButtonSubmit}
         />
         </div>
+        : (
+          this,this.state.route === 'signin' ?
+          <SignIn onRouteChange={this.onRouteChange}/>
+          : <Register onRouteChange={this.onRouteChange}/>
+        )
+          
+        
         }
       </div>
     );
