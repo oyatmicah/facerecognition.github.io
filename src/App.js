@@ -14,6 +14,12 @@ const particlesLoaded = (container) => {
   console.log(container);
 };
 
+//////////////////////////////
+
+
+
+/////////////////////////////
+
 class App extends Component {
   constructor() {
     super();
@@ -26,6 +32,43 @@ class App extends Component {
   };
   onButtonSubmit = () => {
     console.log("click");
+    ///////
+    
+const raw = JSON.stringify({
+  "user_app_id": {
+      "user_id": "clarifai",
+      "app_id": "main"
+  },
+"inputs": [
+  {
+    "data": {
+      "image": {
+        "url": "https://samples.clarifai.com/metro-north.jpg"
+      }
+    }
+  }
+]
+});
+
+const requestOptions = {
+method: 'POST',
+headers: {
+  'Accept': 'application/json',
+  'Authorization': 'Key {2ae1a0c0574240b290d6fe559e46b70f}'
+},
+body: raw
+};
+
+// NOTE: MODEL_VERSION_ID is optional, you can also call prediction with the MODEL_ID only
+// https://api.clarifai.com/v2/models/{YOUR_MODEL_ID}/outputs
+// this will default to the latest version_id
+
+fetch("https://api.clarifai.com/v2/models/people-detection-yolov5/versions/a7ab2517c6e24364a479cd42d405e714/outputs", requestOptions)
+.then(response => response.text())
+.then(result => console.log(result))
+.catch(error => console.log('error', error));
+
+    ///////
   };
 
   render() {
