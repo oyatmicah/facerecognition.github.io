@@ -15,15 +15,19 @@ const particlesLoaded = (container) => {
 };
 
 class App extends Component {
-  constructor(){
+  constructor() {
     super();
-    this.state={
-      input: '',
-    }
+    this.state = {
+      input: "",
+    };
   }
   onInputChange = (event) => {
-    console.log(event);
-  }
+    console.log(event.target.value);
+  };
+  onButtonSubmit = () => {
+    console.log("click");
+  };
+
   render() {
     return (
       <div className="App">
@@ -113,7 +117,10 @@ class App extends Component {
         <Navigation />
         <Logo />
         <Rank />
-        <ImageLinkForm onInputChange={this.onInputChange}/>
+        <ImageLinkForm
+          onInputChange={this.onInputChange}
+          onButtonSubmit={this.onButtonSubmit}
+        />
         {/* <FaceRecognition /> */}
       </div>
     );
