@@ -164,7 +164,7 @@ fetch("https://api.clarifai.com/v2/models/people-detection-yolov5/versions/a7ab2
           onInputChange={this.onInputChange}
           onButtonSubmit={this.onButtonSubmit}
         />
-        {/* <FaceRecognition /> */}
+        <FaceRecognition />
       </div>
     );
   }
