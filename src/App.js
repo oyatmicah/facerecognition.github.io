@@ -22,58 +22,68 @@ class App extends Component {
     super();
     this.state = {
       input: "",
-      route: 'signin'
+      route: "signin",
+      isSignedIn: false,
     };
   }
   onInputChange = (event) => {
-    console.log(event.target.value);
+    console.log({input: event.target.value});
   };
   onButtonSubmit = () => {
     console.log("click");
     ///////
-    
-const raw = JSON.stringify({
-  "user_app_id": {
-      "user_id": "clarifai",
-      "app_id": "main"
-  },
-"inputs": [
-  {
-    "data": {
-      "image": {
-        "url": "https://samples.clarifai.com/metro-north.jpg"
-      }
-    }
-  }
-]
-});
 
-const requestOptions = {
-method: 'POST',
-headers: {
-  'Accept': 'application/json',
-  'Authorization': 'Key {2ae1a0c0574240b290d6fe559e46b70f}'
-},
-body: raw
-};
+    const raw = JSON.stringify({
+      user_app_id: {
+        user_id: "clarifai",
+        app_id: "main",
+      },
+      inputs: [
+        {
+          data: {
+            image: {
+              url: "https://samples.clarifai.com/metro-north.jpg",
+            },
+          },
+        },
+      ],
+    });
 
-// NOTE: MODEL_VERSION_ID is optional, you can also call prediction with the MODEL_ID only
-// https://api.clarifai.com/v2/models/{YOUR_MODEL_ID}/outputs
-// this will default to the latest version_id
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: "Key {2ae1a0c0574240b290d6fe559e46b70f}",
+      },
+      body: raw,
+    };
 
-fetch("https://api.clarifai.com/v2/models/people-detection-yolov5/versions/a7ab2517c6e24364a479cd42d405e714/outputs", requestOptions)
-.then(response => response.text())
-.then(result => console.log(result))
-.catch(error => console.log('error', error));
+    // NOTE: MODEL_VERSION_ID is optional, you can also call prediction with the MODEL_ID only
+    // https://api.clarifai.com/v2/models/{YOUR_MODEL_ID}/outputs
+    // this will default to the latest version_id
+
+    fetch(
+      "https://api.clarifai.com/v2/models/people-detection-yolov5/versions/a7ab2517c6e24364a479cd42d405e714/outputs",
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
 
     ///////
   };
 
   onRouteChange = (route) => {
-    this.setState({route: route});
-  }
+    if (route === "signout") {
+      this.setState({ isSignedIn: false });
+    } else if (route === "home") {
+      this.setState({ isSignedIn: true });
+    }
+    this.setState({ route: route });
+  };
 
   render() {
+    const {isSignedIn,route} = this.state;
     return (
       <div className="App">
         <Particles
@@ -87,7 +97,7 @@ fetch("https://api.clarifai.com/v2/models/people-detection-yolov5/versions/a7ab2
                 value: "linear-gradient(89deg, #ff5edf 0%, #04c8de 100%);",
               },
             },
-            fpsLimit: 120,
+            fpsLimit: 30,
             interactivity: {
               events: {
                 onClick: {
@@ -159,23 +169,24 @@ fetch("https://api.clarifai.com/v2/models/people-detection-yolov5/versions/a7ab2
             detectRetina: true,
           }}
         />
-        <Navigation onRouteChange={this.onRouteChange}/>
-        { this.state.route === 'home' ?
-        <div><Logo />
-        <Rank />
-        <ImageLinkForm
-          onInputChange={this.onInputChange}
-          onButtonSubmit={this.onButtonSubmit}
-        />
-        </div>
-        : (
-          this,this.state.route === 'signin' ?
-          <SignIn onRouteChange={this.onRouteChange}/>
-          : <Register onRouteChange={this.onRouteChange}/>
-        )
-          
-        
-        }
+        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
+        {route === "home" ? (
+          <div>
+            <Logo />
+            <Rank />
+            <ImageLinkForm
+              onInputChange={this.onInputChange}
+              onButtonSubmit={this.onButtonSubmit}
+            />
+          </div>
+        ) : (
+          (this,
+          route === "signin" ? (
+            <SignIn onRouteChange={this.onRouteChange} />
+          ) : (
+            <Register onRouteChange={this.onRouteChange} />
+          ))
+        )}
       </div>
     );
   }
