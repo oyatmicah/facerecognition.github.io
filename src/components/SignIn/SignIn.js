@@ -1,7 +1,7 @@
 import React from "react";
 import "./SignIn.css";
 
-const SignIn = () => {
+const SignIn = ({onRouteChange}) => {
   return (
     <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw5 center shadow-5">
       <main className="pa4 black-80">
@@ -35,6 +35,7 @@ const SignIn = () => {
             <input
               className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
               type="submit"
+              onClick={() => onRouteChange('home')}
               value="Sign in"
             />
           </div>

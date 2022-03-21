@@ -68,6 +68,10 @@ fetch("https://api.clarifai.com/v2/models/people-detection-yolov5/versions/a7ab2
     ///////
   };
 
+  onRouteChange = (route) => {
+    this.setState({route: route});
+  }
+
   render() {
     return (
       <div className="App">
@@ -79,7 +83,7 @@ fetch("https://api.clarifai.com/v2/models/people-detection-yolov5/versions/a7ab2
           options={{
             background: {
               color: {
-                value: "#0d47a1",
+                value: "linear-gradient(89deg, #ff5edf 0%, #04c8de 100%);",
               },
             },
             fpsLimit: 120,
@@ -129,7 +133,7 @@ fetch("https://api.clarifai.com/v2/models/people-detection-yolov5/versions/a7ab2
                 direction: "none",
                 enable: true,
                 outMode: "bounce",
-                random: false,
+                random: true,
                 speed: 6,
                 straight: false,
               },
@@ -138,7 +142,7 @@ fetch("https://api.clarifai.com/v2/models/people-detection-yolov5/versions/a7ab2
                   enable: true,
                   area: 500,
                 },
-                value: 50,
+                value: 30,
               },
               opacity: {
                 value: 0.5,
@@ -154,7 +158,7 @@ fetch("https://api.clarifai.com/v2/models/people-detection-yolov5/versions/a7ab2
             detectRetina: true,
           }}
         />
-        <Navigation />
+        <Navigation onRouteChange={this.onRouteChange}/>
         { this.state.route === 'signin' ?
           <SignIn onRouteChange={this.onRouteChange}/>
           :
