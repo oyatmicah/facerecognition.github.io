@@ -24,10 +24,28 @@ class App extends Component {
       input: "",
       route: "signin",
       isSignedIn: false,
+      user: {
+        id: "",
+        name: "",
+        email: "",
+        entries: 0,
+        joined: ""
+      },
     };
   }
+
+  loadUser = (data) => {
+    this.setState({user: {
+      id: data.id,
+        name: data.name,
+        email: data.email,
+        entries: data.entries,
+        joined: data.joined
+    }})
+  }
+
   onInputChange = (event) => {
-    console.log({input: event.target.value});
+    console.log({ input: event.target.value });
   };
   onButtonSubmit = () => {
     console.log("click");
@@ -83,7 +101,7 @@ class App extends Component {
   };
 
   render() {
-    const {isSignedIn,route} = this.state;
+    const { isSignedIn, route } = this.state;
     return (
       <div className="App">
         <Particles
@@ -169,7 +187,10 @@ class App extends Component {
             detectRetina: true,
           }}
         />
-        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
+        <Navigation
+          isSignedIn={isSignedIn}
+          onRouteChange={this.onRouteChange}
+        />
         {route === "home" ? (
           <div>
             <Logo />
@@ -184,7 +205,7 @@ class App extends Component {
           route === "signin" ? (
             <SignIn onRouteChange={this.onRouteChange} />
           ) : (
-            <Register onRouteChange={this.onRouteChange} />
+            <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange} />
           ))
         )}
       </div>
